@@ -1,0 +1,29 @@
+{
+  "name": "averon-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "node src/index.js",
+  "dev": "node --watch src/index.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AkilaDee/Averon-BackEnd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AkilaDee/Averon-BackEnd/issues"
+  },
+  "homepage": "https://github.com/AkilaDee/Averon-BackEnd#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.21.0",
+    "stripe": "^22.2.0"
+  }
+}
