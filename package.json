@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "node src/index.js",
-  "dev": "node --watch src/index.js"
-},
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AkilaDee/Averon-BackEnd.git"
@@ -25,5 +25,8 @@
     "express": "^5.2.1",
     "pg": "^8.21.0",
     "stripe": "^22.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
