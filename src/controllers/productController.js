@@ -6,18 +6,28 @@ exports.getAllProducts = async (req, res) => {
     
     const queryText = `
       SELECT 
-        p.product_id,
-        p.product_name, 
-        v.variant_name, -- 'Sticks' or 'Powder'
-        g.grade_id,
-        g.grade_name,   -- 'C5 Premium', 'Alba', etc.
-        g.specification, -- '5 inches', '60 Mesh', or NULL
-        g.weight,       -- Current physical weight in KG
-        g.in_shop       -- TRUE = Online Shop, FALSE = Wholesale Only
-      FROM product p
-      LEFT JOIN variant v ON p.product_id = v.product_id
-      LEFT JOIN grade g ON v.variant_id = g.variant_id
-      ORDER BY p.product_name, v.variant_name, g.grade_name;
+    i.item_id AS id,
+    p.product_name,
+    v.variant_name,
+    g.grade_name,
+    i.specification,
+    i.unit_type, -- Pulling 'kg' or 'pcs'
+    i.price_per_unit,
+    i.in_shop,
+    COALESCE(
+        json_balance.tiers, 
+        json_build_array(json_build_object('min_qty', 1.00, 'price', i.price_per_unit))
+    ) AS price_tiers
+FROM inventory_items i
+JOIN grades g ON i.grade_id = g.grade_id
+JOIN variants v ON g.variant_id = v.variant_id
+JOIN products p ON v.product_id = p.product_id
+LEFT JOIN (
+    SELECT item_id, json_agg(json_build_object('min_qty', minimum_quantity, 'price', price_per_unit) ORDER BY minimum_quantity ASC) AS tiers
+    FROM price_tiers
+    GROUP BY item_id
+) json_balance ON i.item_id = json_balance.item_id
+WHERE i.in_shop = TRUE AND i.current_stock > 0;
     `;
 
     const result = await pool.query(queryText);
