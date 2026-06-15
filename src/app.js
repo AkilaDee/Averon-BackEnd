@@ -9,7 +9,7 @@ const app = express();
 
 // OPTIONAL: Swap app.use(cors()) for this if you want to restrict origins safely:
 app.use(cors({
-  origin: ['http://localhost:5137', 'http://127.0.0.1:5137', 'http://localhost:5173'],
+  origin: ['https://www.averonsupplies.co.uk'],
   credentials: true
 }));
 
